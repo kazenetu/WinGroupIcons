@@ -24,12 +24,35 @@ Public Class IconInfo
     End Property
 
     ''' <summary>
+    ''' Y位置
+    ''' </summary>
+    ''' <returns>X位置</returns>
+    Public ReadOnly Property Y As Integer
+        Get
+            Return DirectCast(Me.tagetObject, Label).Location.Y
+        End Get
+    End Property
+
+    ''' <summary>
     ''' コンストラクタ
     ''' </summary>
     ''' <param name="target"></param>
     Public Sub New(ByVal target As Object)
         Me.tagetObject = target
     End Sub
+
+    ''' <summary>
+    ''' 指定した位置がアイコンの中か否か
+    ''' </summary>
+    ''' <param name="pos">指定した位置</param>
+    ''' <returns>true:アイコンの中</returns>
+    Public Function isHit(ByVal pos As Point) As Boolean
+        Dim target = DirectCast(Me.tagetObject, Label)
+
+        Dim rect As New Rectangle(target.Location, target.Size)
+
+        Return rect.Contains(pos)
+    End Function
 
     ''' <summary>
     ''' アイコンの追加
