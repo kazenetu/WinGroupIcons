@@ -53,7 +53,8 @@ Public Class IconGroups
             Me.removeEmptyGroups()
         Else
             ' アイコンの入れ替え
-            Dim groups = Me.Items.Where(Function(item) item.MinX > target.X).OrderBy(Function(item) item.MinX).ToList()
+            Dim targetPos As New Point(target.X, 30)
+            Dim groups = Me.Items.Where(Function(item) item.MinX > target.X OrElse item.Rect.Contains(targetPos)).OrderBy(Function(item) item.MinX).ToList()
 
             target.X = CInt(target.X / IconInfo.WIDTH) * IconInfo.WIDTH + 30
 
