@@ -1,6 +1,7 @@
 ﻿''' <summary>
 ''' アイコングループ
 ''' </summary>
+''' <remarks>アイコン群に情報を付加する場合はこのクラスに追加する</remarks>
 Public Class IconGroup
     ''' <summary>
     ''' アイコンリスト
