@@ -26,7 +26,10 @@ Public Class Form1
         Dim target As Label = DirectCast(sender, Label)
 
         If e.Button = MouseButtons.Right Then
+            Me.iconGroups.Remove(target.Tag)
             Me.Controls.Remove(target)
+
+            Me.drawLines()
         Else
             target.BringToFront()
         End If
@@ -104,6 +107,8 @@ Public Class Form1
 
         ' アイコンの登録
         Me.iconGroups.Add(IconGroup.Create(IconInfo.Create(newLabel)))
+
+        Me.drawLines()
     End Sub
 
     ''' <summary>
