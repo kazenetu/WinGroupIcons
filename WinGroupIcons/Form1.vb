@@ -4,6 +4,8 @@ Public Class Form1
 
     Private iconCount As Integer = 0
 
+    Private iconGroups As New IconGroups()
+
     ''' <summary>
     ''' ラベルのマウスイベントを追加
     ''' </summary>
@@ -11,6 +13,7 @@ Public Class Form1
     Private Sub setHandler(target As Label)
         AddHandler target.MouseDown, AddressOf Label_MouseDown
         AddHandler target.MouseMove, AddressOf Label_MouseMove
+        AddHandler target.MouseUp, AddressOf Label_MouseUp
 
     End Sub
 
@@ -25,7 +28,7 @@ Public Class Form1
         If e.Button = MouseButtons.Right Then
             Me.Controls.Remove(target)
         Else
-            target.Tag = e.Location
+            target.BringToFront()
         End If
     End Sub
 
@@ -40,9 +43,24 @@ Public Class Form1
         End If
 
         Dim target As Label = DirectCast(sender, Label)
-        Dim basePoint As Point = DirectCast(target.Tag, Point)
-        target.Left = CInt((target.Left + e.Location.X - basePoint.X) / 50) * 50
-        target.Top = CInt((target.Top + e.Location.Y - basePoint.Y) / 50) * 50
+        target.Left += e.X
+        target.BackColor = Color.FromArgb(64, Color.Red)
+    End Sub
+
+    ''' <summary>
+    ''' ラベル マウスアップ
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub Label_MouseUp(sender As Object, e As MouseEventArgs)
+        If Not e.Button = MouseButtons.Left Then
+            Return
+        End If
+
+        Dim target As Label = DirectCast(sender, Label)
+        iconGroups.Move(target.Tag)
+
+        target.BackColor = Color.FromArgb(255, Color.SkyBlue)
     End Sub
 
     ''' <summary>
@@ -51,17 +69,38 @@ Public Class Form1
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub addIcon_Click(sender As Object, e As EventArgs) Handles addIcon.Click
+
+        ' 一番右端を選択
+        Dim iconX As Integer = 0
+        For Each control In Me.Controls
+            If TypeOf control Is Label Then
+                Dim labelInstance = DirectCast(control, Label)
+                If iconX < labelInstance.Location.X Then
+                    iconX = labelInstance.Location.X
+                End If
+            End If
+        Next
+        If iconX > 0 Then
+            iconX += IconInfo.WIDTH
+        End If
+
         Dim newLabel As New Label()
 
         iconCount += 1
 
+        newLabel.Left = iconX + 30
+        newLabel.Top = 100
+        newLabel.Margin = New Padding(30, 30, 0, 0)
         newLabel.Width = 60
         newLabel.Height = 60
-        newLabel.BackColor = Color.Black
+        newLabel.BackColor = Color.SkyBlue
         newLabel.ForeColor = Color.White
         newLabel.Text = String.Format("icon     {0}", iconCount)
         setHandler(newLabel)
 
         Me.Controls.Add(newLabel)
+
+        ' アイコンの登録
+        Me.iconGroups.Add(IconGroup.Create(IconInfo.Create(newLabel)))
     End Sub
 End Class
