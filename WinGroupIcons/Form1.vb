@@ -107,6 +107,7 @@ Public Class Form1
 
         ' アイコンの登録
         Me.iconGroups.Add(IconGroup.Create(IconInfo.Create(newLabel)))
+        iconGroups.Move(newLabel.Tag)
 
         Me.drawLines()
     End Sub
