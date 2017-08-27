@@ -99,7 +99,7 @@ Public Class IconGroups
         Dim X = 30
         For index = 0 To groups.Count - 1
             groups(index).setMinX(X)
-            X += +IconInfo.WIDTH
+            X = groups(index).Items.Max(Function(item) item.X) + IconInfo.WIDTH
         Next
     End Sub
 End Class
