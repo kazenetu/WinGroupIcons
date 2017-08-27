@@ -17,6 +17,25 @@ Public Class IconGroups
     End Sub
 
     ''' <summary>
+    ''' 削除
+    ''' </summary>
+    ''' <param name="instance">アイコンインスタンス</param>
+    Public Sub Remove(ByVal instance As IconInfo)
+        ' 移動元のグループを取得
+        Dim srcGroups = Me.Items.Where(Function(group) group.Items.Contains(instance))
+        If Not srcGroups.Any() Then
+            Return
+        End If
+        Dim srcGroup = srcGroups.First()
+
+        ' アイコンの削除
+        srcGroup.Remove(instance)
+
+        ' 空のグループは削除
+        Me.removeEmptyGroups()
+    End Sub
+
+    ''' <summary>
     ''' アイコンの移動
     ''' </summary>
     ''' <param name="target">移動したアイコン</param>
@@ -31,12 +50,7 @@ Public Class IconGroups
             Next
 
             ' 空のグループは削除
-            Dim groups = Me.Items.ToList()
-            For index = 0 To groups.Count - 1
-                If Not groups(index).Items.Any() Then
-                    Me.Items.Remove(groups(index))
-                End If
-            Next
+            Me.removeEmptyGroups()
         Else
             ' アイコンの入れ替え
             Dim groups = Me.Items.Where(Function(item) item.MinX > target.X).OrderBy(Function(item) item.MinX).ToList()
@@ -89,6 +103,18 @@ Public Class IconGroups
         srcGroup.Remove(srcIcon)
     End Sub
 
+    ''' <summary>
+    ''' アイコンのないグループを削除する
+    ''' </summary>
+    Private Sub removeEmptyGroups()
+        ' 空のグループは削除
+        Dim groups = Me.Items.ToList()
+        For index = 0 To groups.Count - 1
+            If Not groups(index).Items.Any() Then
+                Me.Items.Remove(groups(index))
+            End If
+        Next
+    End Sub
 
     ''' <summary>
     ''' アイコンの更新
