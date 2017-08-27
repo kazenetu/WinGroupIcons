@@ -61,6 +61,8 @@ Public Class Form1
         iconGroups.Move(target.Tag)
 
         target.BackColor = Color.FromArgb(255, Color.SkyBlue)
+
+        Me.drawLines()
     End Sub
 
     ''' <summary>
@@ -103,4 +105,38 @@ Public Class Form1
         ' アイコンの登録
         Me.iconGroups.Add(IconGroup.Create(IconInfo.Create(newLabel)))
     End Sub
+
+    ''' <summary>
+    ''' グループ線の描画
+    ''' </summary>
+    Private Sub drawLines()
+        ' グルーピング クリア
+        Using gr As Graphics = Me.CreateGraphics()
+            gr.FillRectangle(New SolidBrush(Me.BackColor), New RectangleF(0, 0, Me.Width, Me.Height))
+        End Using
+
+        ' 描画
+        Dim p As New Pen(Color.Black, 3)
+        Using gr As Graphics = Me.CreateGraphics()
+
+            For Each group In Me.iconGroups.Items
+                If group.Items.Count >= 2 Then
+                    Dim icons = group.Items.OrderBy(Function(item) item.X).ToList()
+                    Dim startPos As New Point(icons(0).X, icons(0).Y + 30)
+                    Dim endPos As New Point()
+
+                    For index = 1 To icons.Count - 1
+                        endPos.X = icons(index).X
+                        endPos.Y = icons(index).Y + 30
+
+                        gr.DrawLine(p, startPos, endPos)
+
+                        startPos = endPos
+
+                    Next
+                End If
+            Next
+        End Using
+    End Sub
+
 End Class
