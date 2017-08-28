@@ -26,7 +26,7 @@ Public Class IconInfo
     ''' <summary>
     ''' Y位置
     ''' </summary>
-    ''' <returns>X位置</returns>
+    ''' <returns>Y位置</returns>
     Public ReadOnly Property Y As Integer
         Get
             Return DirectCast(Me.tagetObject, Label).Location.Y
