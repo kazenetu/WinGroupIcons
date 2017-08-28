@@ -61,7 +61,7 @@ Public Class IconGroups
             Dim x = target.X + IconInfo.WIDTH
             For index = 0 To groups.Count - 1
                 groups(index).setMinX(x)
-                x += +IconInfo.WIDTH
+                x += IconInfo.WIDTH
             Next
         End If
 
