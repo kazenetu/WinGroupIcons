@@ -70,6 +70,26 @@ Public Class IconGroups
     End Sub
 
     ''' <summary>
+    ''' グループの解除
+    ''' </summary>
+    ''' <param name="target">解除するアイコン</param>
+    Public Sub Reset(ByVal target As IconInfo)
+
+        If target.group.Items.Count <= 1 Then
+            Return
+        End If
+
+        target.group.Remove(target)
+
+        Dim group As New IconGroup()
+        group.Add(target)
+        Me.Items.Add(group)
+
+        ' アイコンの並び直し
+        Me.refresh()
+    End Sub
+
+    ''' <summary>
     ''' マージするか否か
     ''' </summary>
     ''' <param name="target">移動したアイコン</param>
@@ -100,8 +120,8 @@ Public Class IconGroups
         Dim srcGroup = srcGroups.First()
 
         ' アイコンの移動
-        descGroup.Add(srcIcon)
         srcGroup.Remove(srcIcon)
+        descGroup.Add(srcIcon)
     End Sub
 
     ''' <summary>
