@@ -11,6 +11,12 @@ Public Class IconInfo
     Public ReadOnly Property tagetObject As Object
 
     ''' <summary>
+    ''' 所属グループ
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property group As IconGroup = Nothing
+
+    ''' <summary>
     ''' X位置
     ''' </summary>
     ''' <returns>X位置</returns>

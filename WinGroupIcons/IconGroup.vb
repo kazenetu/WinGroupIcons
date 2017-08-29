@@ -38,6 +38,7 @@ Public Class IconGroup
     ''' </summary>
     ''' <param name="instance">Iconインスタンス</param>
     Public Sub Add(ByRef instance As IconInfo)
+        instance.group = Me
         Me.Items.Add(instance)
     End Sub
 
@@ -46,6 +47,7 @@ Public Class IconGroup
     ''' </summary>
     ''' <param name="instance">Iconインスタンス</param>
     Public Sub Remove(ByRef instance As IconInfo)
+        instance.group = Nothing
         Me.Items.Remove(instance)
     End Sub
 
