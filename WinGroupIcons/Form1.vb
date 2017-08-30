@@ -26,8 +26,10 @@ Public Class Form1
         Dim target As Label = DirectCast(sender, Label)
 
         If e.Button = MouseButtons.Right Then
-            Me.iconGroups.Remove(target.Tag)
-            Me.Controls.Remove(target)
+            'Me.iconGroups.Remove(target.Tag)
+            'Me.Controls.Remove(target)
+
+            Me.iconGroups.Reset(target.Tag)
 
             Me.drawLines()
         Else
