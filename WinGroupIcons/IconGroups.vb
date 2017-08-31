@@ -90,6 +90,19 @@ Public Class IconGroups
     End Sub
 
     ''' <summary>
+    ''' グループ内のアイコン数
+    ''' </summary>
+    ''' <param name="target">対象グループを調査するアイコン</param>
+    Public Function GroupIconCount(ByVal target As IconInfo) As Integer
+
+        If target.group Is Nothing Then
+            Return 0
+        End If
+
+        Return target.group.Items.Count
+    End Function
+
+    ''' <summary>
     ''' マージするか否か
     ''' </summary>
     ''' <param name="target">移動したアイコン</param>
