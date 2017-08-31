@@ -93,6 +93,7 @@ Public Class IconGroups
     ''' グループ内のアイコン数
     ''' </summary>
     ''' <param name="target">対象グループを調査するアイコン</param>
+    ''' <returns>アイコン数</returns>
     Public Function GroupIconCount(ByVal target As IconInfo) As Integer
 
         If target.group Is Nothing Then
