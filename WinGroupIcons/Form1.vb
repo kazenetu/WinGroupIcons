@@ -2,8 +2,14 @@
 
 Public Class Form1
 
+    ''' <summary>
+    ''' アイコンのユニークインデックス用
+    ''' </summary>
     Private iconCount As Integer = 0
 
+    ''' <summary>
+    ''' アイコングループ管理クラス
+    ''' </summary>
     Private iconGroups As New IconGroups()
 
     ''' <summary>
