@@ -26,10 +26,10 @@ Partial Class Form1
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.addIcon = New System.Windows.Forms.Button()
         Me.ContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.AaaaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BbbbToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.グループ設定ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.グループ解除ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItemCancel = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItemRemove = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItemSetGroup = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItemResetGroup = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1.SuspendLayout()
         Me.ContextMenu.SuspendLayout()
         Me.SuspendLayout()
@@ -55,33 +55,33 @@ Partial Class Form1
         '
         'ContextMenu
         '
-        Me.ContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AaaaToolStripMenuItem, Me.BbbbToolStripMenuItem, Me.グループ設定ToolStripMenuItem, Me.グループ解除ToolStripMenuItem})
+        Me.ContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItemCancel, Me.MenuItemRemove, Me.MenuItemSetGroup, Me.MenuItemResetGroup})
         Me.ContextMenu.Name = "ContextMenuStrip1"
         Me.ContextMenu.Size = New System.Drawing.Size(153, 114)
         '
-        'AaaaToolStripMenuItem
+        'MenuItemCancel
         '
-        Me.AaaaToolStripMenuItem.Name = "AaaaToolStripMenuItem"
-        Me.AaaaToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.AaaaToolStripMenuItem.Text = "キャンセル"
+        Me.MenuItemCancel.Name = "MenuItemCancel"
+        Me.MenuItemCancel.Size = New System.Drawing.Size(152, 22)
+        Me.MenuItemCancel.Text = "キャンセル"
         '
-        'BbbbToolStripMenuItem
+        'MenuItemRemove
         '
-        Me.BbbbToolStripMenuItem.Name = "BbbbToolStripMenuItem"
-        Me.BbbbToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.BbbbToolStripMenuItem.Text = "削除"
+        Me.MenuItemRemove.Name = "MenuItemRemove"
+        Me.MenuItemRemove.Size = New System.Drawing.Size(152, 22)
+        Me.MenuItemRemove.Text = "削除"
         '
-        'グループ設定ToolStripMenuItem
+        'MenuItemSetGroup
         '
-        Me.グループ設定ToolStripMenuItem.Name = "グループ設定ToolStripMenuItem"
-        Me.グループ設定ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.グループ設定ToolStripMenuItem.Text = "グループ設定"
+        Me.MenuItemSetGroup.Name = "MenuItemSetGroup"
+        Me.MenuItemSetGroup.Size = New System.Drawing.Size(152, 22)
+        Me.MenuItemSetGroup.Text = "グループ設定"
         '
-        'グループ解除ToolStripMenuItem
+        'MenuItemResetGroup
         '
-        Me.グループ解除ToolStripMenuItem.Name = "グループ解除ToolStripMenuItem"
-        Me.グループ解除ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.グループ解除ToolStripMenuItem.Text = "グループ解除"
+        Me.MenuItemResetGroup.Name = "MenuItemResetGroup"
+        Me.MenuItemResetGroup.Size = New System.Drawing.Size(152, 22)
+        Me.MenuItemResetGroup.Text = "グループ解除"
         '
         'Form1
         '
@@ -100,8 +100,8 @@ Partial Class Form1
     Friend WithEvents Panel1 As Panel
     Friend WithEvents addIcon As Button
     Friend WithEvents ContextMenu As ContextMenuStrip
-    Friend WithEvents AaaaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BbbbToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents グループ設定ToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents グループ解除ToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MenuItemCancel As ToolStripMenuItem
+    Friend WithEvents MenuItemRemove As ToolStripMenuItem
+    Friend WithEvents MenuItemSetGroup As ToolStripMenuItem
+    Friend WithEvents MenuItemResetGroup As ToolStripMenuItem
 End Class
