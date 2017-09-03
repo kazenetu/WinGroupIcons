@@ -51,13 +51,19 @@ Public Class Form1
             ' ラベル設定
             Me.setLabels()
         ElseIf e.Button = MouseButtons.Right Then
-            If Not Me.selectIcons.Contains(target.Tag) Then
-                Me.selectIcons.Add(target.Tag)
-            End If
-            Me.ContextMenu.Show(PointToScreen(target.Location + e.Location))
-        End If
 
-        Me.drawLines()
+            ' コントロールキーが押されていない場合はリストをクリア
+            If Not (Control.ModifierKeys And Keys.Control) = Keys.Control Then
+                Me.selectIcons.Clear()
+            End If
+
+            If Not Me.selectIcons.Contains(target.Tag) Then
+                    Me.selectIcons.Add(target.Tag)
+                End If
+                Me.ContextMenu.Show(PointToScreen(target.Location + e.Location))
+            End If
+
+            Me.drawLines()
     End Sub
 
     ''' <summary>
