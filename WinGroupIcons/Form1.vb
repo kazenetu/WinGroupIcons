@@ -13,6 +13,11 @@ Public Class Form1
     Private iconGroups As New IconGroups()
 
     ''' <summary>
+    ''' 選択中のアイコン
+    ''' </summary>
+    Private selectIcons As New List(Of IconInfo)
+
+    ''' <summary>
     ''' ラベルのマウスイベントを追加
     ''' </summary>
     ''' <param name="target"></param>
@@ -31,18 +36,28 @@ Public Class Form1
     Private Sub Label_MouseDown(sender As Object, e As MouseEventArgs)
         Dim target As Label = DirectCast(sender, Label)
 
-        If e.Button = MouseButtons.Right Then
-            If Me.iconGroups.GroupIconCount(target.Tag) <= 1 Then
-                Me.iconGroups.Remove(target.Tag)
-                Me.Controls.Remove(target)
-            Else
-                Me.iconGroups.Reset(target.Tag)
-            End If
+        If e.Button = MouseButtons.Left Then
+            If (Control.ModifierKeys And Keys.Control) = Keys.Control Then
 
-            Me.drawLines()
-        Else
+                If Not Me.selectIcons.Contains(target.Tag) Then
+                    Me.selectIcons.Add(target.Tag)
+                End If
+            Else
+                Me.selectIcons.Clear()
+                Me.selectIcons.Add(target.Tag)
+            End If
             target.BringToFront()
+
+            ' ラベル設定
+            Me.setLabels()
+        ElseIf e.Button = MouseButtons.Right Then
+            If Not Me.selectIcons.Contains(target.Tag) Then
+                Me.selectIcons.Add(target.Tag)
+            End If
+            Me.ContextMenu.Show(PointToScreen(target.Location + e.Location))
         End If
+
+        Me.drawLines()
     End Sub
 
     ''' <summary>
@@ -52,6 +67,9 @@ Public Class Form1
     ''' <param name="e"></param>
     Private Sub Label_MouseMove(sender As Object, e As MouseEventArgs)
         If Not e.Button = MouseButtons.Left Then
+            Return
+        End If
+        If (Control.ModifierKeys And Keys.Control) = Keys.Control Then
             Return
         End If
 
@@ -66,7 +84,10 @@ Public Class Form1
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub Label_MouseUp(sender As Object, e As MouseEventArgs)
-        If Not e.Button = MouseButtons.Left Then
+        If (Control.ModifierKeys And Keys.Control) = Keys.Control Then
+            Return
+        End If
+        If e.Button = MouseButtons.Right Then
             Return
         End If
 
@@ -123,6 +144,21 @@ Public Class Form1
     End Sub
 
     ''' <summary>
+    ''' ラベル設定
+    ''' </summary>
+    Private Sub setLabels()
+        For Each control In Me.Controls
+            If TypeOf (control) Is Label Then
+                If Me.selectIcons.Contains(control.tag) Then
+                    control.BackColor = Color.FromArgb(255, Color.Beige)
+                Else
+                    control.BackColor = Color.SkyBlue
+                End If
+            End If
+        Next
+    End Sub
+
+    ''' <summary>
     ''' グループ線の描画
     ''' </summary>
     Private Sub drawLines()
@@ -155,4 +191,35 @@ Public Class Form1
         End Using
     End Sub
 
+    ''' <summary>
+    ''' メニューアイテムのクリック
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub ContextMenu_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles ContextMenu.ItemClicked
+
+        If e.ClickedItem Is Me.MenuItemCancel Then
+            ' 選択キャンセル
+            Me.selectIcons.Clear()
+        ElseIf e.ClickedItem Is Me.MenuItemRemove Then
+            ' 削除
+            For Each selectItem In Me.selectIcons
+                Me.iconGroups.Remove(selectItem)
+                Me.Controls.Remove(selectItem.tagetObject)
+            Next
+        ElseIf e.ClickedItem Is Me.MenuItemSetGroup Then
+            ' グループ設定
+        ElseIf e.ClickedItem Is Me.MenuItemResetGroup Then
+            ' グループ解除
+            For Each selectItem In Me.selectIcons
+                Me.iconGroups.Reset(selectItem)
+            Next
+            Me.selectIcons.Clear()
+        End If
+
+        ' ラベル設定
+        Me.setLabels()
+
+        Me.drawLines()
+    End Sub
 End Class
