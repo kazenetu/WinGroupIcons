@@ -70,6 +70,25 @@ Public Class IconGroups
     End Sub
 
     ''' <summary>
+    ''' グループ設定
+    ''' </summary>
+    ''' <param name="fromItem">移動するアイコン</param>
+    ''' <param name="toGroup">移動先のグループ</param>
+    Public Sub SetGroup(ByVal fromItem As IconInfo, ByVal toGroup As IconGroup)
+
+        ' 同じグループであれば処理を終了
+        If fromItem.group Is toGroup Then
+            Return
+        End If
+
+        ' グループの移動
+        Me.groupMove(fromItem, toGroup)
+
+        ' 空のグループは削除
+        Me.removeEmptyGroups()
+    End Sub
+
+    ''' <summary>
     ''' グループの解除
     ''' </summary>
     ''' <param name="target">解除するアイコン</param>
