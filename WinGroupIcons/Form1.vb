@@ -209,6 +209,14 @@ Public Class Form1
             Next
         ElseIf e.ClickedItem Is Me.MenuItemSetGroup Then
             ' グループ設定
+            Dim icons = Me.selectIcons.OrderBy(Function(item) item.X).ToList()
+            If icons.Count >= 2 Then
+                Dim ownerGroup = icons(0).group
+                For index = 1 To icons.Count - 1
+                    Me.iconGroups.SetGroup(icons(index), ownerGroup)
+                Next
+            End If
+            Me.selectIcons.Clear()
         ElseIf e.ClickedItem Is Me.MenuItemResetGroup Then
             ' グループ解除
             For Each selectItem In Me.selectIcons
