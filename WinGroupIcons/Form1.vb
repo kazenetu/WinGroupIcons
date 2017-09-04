@@ -29,6 +29,17 @@ Public Class Form1
     End Sub
 
     ''' <summary>
+    ''' ラベルのマウスイベントを削除
+    ''' </summary>
+    ''' <param name="target">イベント削除対象</param>
+    Private Sub resetHandler(target As Label)
+        RemoveHandler target.MouseDown, AddressOf Label_MouseDown
+        RemoveHandler target.MouseMove, AddressOf Label_MouseMove
+        RemoveHandler target.MouseUp, AddressOf Label_MouseUp
+
+    End Sub
+
+    ''' <summary>
     ''' ラベル マウスクリック
     ''' </summary>
     ''' <param name="sender"></param>
@@ -210,6 +221,9 @@ Public Class Form1
         ElseIf e.ClickedItem Is Me.MenuItemRemove Then
             ' 削除
             For Each selectItem In Me.selectIcons
+                ' イベント削除
+                Me.resetHandler(selectItem.tagetObject)
+
                 Me.iconGroups.Remove(selectItem)
                 Me.Controls.Remove(selectItem.tagetObject)
             Next
