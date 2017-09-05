@@ -49,11 +49,13 @@ Public Class Form1
 
         If e.Button = MouseButtons.Left Then
             If (Control.ModifierKeys And Keys.Control) = Keys.Control Then
-
+                ' Ctrl+クリックで複数選択
                 If Not Me.selectIcons.Contains(target.Tag) Then
                     Me.selectIcons.Add(target.Tag)
                 End If
             Else
+
+                ' 単一選択の場合、クリアしてから今回のアイコンを追加
                 Me.selectIcons.Clear()
                 Me.selectIcons.Add(target.Tag)
             End If
@@ -61,6 +63,7 @@ Public Class Form1
 
             ' ラベル設定
             Me.setLabels()
+
         ElseIf e.Button = MouseButtons.Right Then
 
             ' コントロールキーが押されていない場合はリストをクリア
@@ -68,13 +71,18 @@ Public Class Form1
                 Me.selectIcons.Clear()
             End If
 
+            ' 右クリックしたアイコンが追加されていない場合は追加する
             If Not Me.selectIcons.Contains(target.Tag) Then
-                    Me.selectIcons.Add(target.Tag)
-                End If
-                Me.ContextMenu.Show(PointToScreen(target.Location + e.Location))
+                Me.selectIcons.Add(target.Tag)
             End If
 
-            Me.drawLines()
+            ' コンテキストメニューを表示
+            Me.ContextMenu.Show(PointToScreen(target.Location + e.Location))
+
+        End If
+
+        ' グループ線を描画
+        Me.drawLines()
     End Sub
 
     ''' <summary>
@@ -83,13 +91,18 @@ Public Class Form1
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub Label_MouseMove(sender As Object, e As MouseEventArgs)
+
+        ' 左クリック以外であれば終了
         If Not e.Button = MouseButtons.Left Then
             Return
         End If
+
+        ' ctrlによる複数選択であれば終了
         If (Control.ModifierKeys And Keys.Control) = Keys.Control Then
             Return
         End If
 
+        ' アイコンの移動と背景色の変更
         Dim target As Label = DirectCast(sender, Label)
         target.Left += e.X
         target.BackColor = Color.FromArgb(64, Color.Red)
@@ -101,18 +114,25 @@ Public Class Form1
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub Label_MouseUp(sender As Object, e As MouseEventArgs)
+
+        ' 左クリック以外であれば終了
+        If Not e.Button = MouseButtons.Left Then
+            Return
+        End If
+
+        ' ctrlによる複数選択であれば終了
         If (Control.ModifierKeys And Keys.Control) = Keys.Control Then
             Return
         End If
-        If e.Button = MouseButtons.Right Then
-            Return
-        End If
 
+        ' アイコングループの移動またはグループ設定
         Dim target As Label = DirectCast(sender, Label)
         iconGroups.Move(target.Tag)
 
+        ' アイコンの背景色を通常に変更
         target.BackColor = Color.FromArgb(255, Color.SkyBlue)
 
+        ' グループ線を描画
         Me.drawLines()
     End Sub
 
@@ -157,6 +177,7 @@ Public Class Form1
         Me.iconGroups.Add(IconGroup.Create(IconInfo.Create(newLabel)))
         iconGroups.Move(newLabel.Tag)
 
+        ' グループ線を描画
         Me.drawLines()
     End Sub
 
@@ -217,18 +238,26 @@ Public Class Form1
 
         If e.ClickedItem Is Me.MenuItemCancel Then
             ' 選択キャンセル
+
+            ' 選択アイコンをクリアする
             Me.selectIcons.Clear()
+
         ElseIf e.ClickedItem Is Me.MenuItemRemove Then
+
             ' 削除
             For Each selectItem In Me.selectIcons
                 ' イベント削除
                 Me.resetHandler(selectItem.tagetObject)
 
+                ' アイコンの削除
                 Me.iconGroups.Remove(selectItem)
                 Me.Controls.Remove(selectItem.tagetObject)
             Next
+
         ElseIf e.ClickedItem Is Me.MenuItemSetGroup Then
+
             ' グループ設定
+            ' 左端のグループにマージする
             Dim icons = Me.selectIcons.OrderBy(Function(item) item.X).ToList()
             If icons.Count >= 2 Then
                 Dim ownerGroup = icons(0).group
@@ -236,18 +265,26 @@ Public Class Form1
                     Me.iconGroups.SetGroup(icons(index), ownerGroup)
                 Next
             End If
+
+            ' 選択アイコンをクリアする
             Me.selectIcons.Clear()
+
         ElseIf e.ClickedItem Is Me.MenuItemResetGroup Then
+
             ' グループ解除
             For Each selectItem In Me.selectIcons
                 Me.iconGroups.Reset(selectItem)
             Next
+
+            ' 選択アイコンをクリアする
             Me.selectIcons.Clear()
+
         End If
 
         ' ラベル設定
         Me.setLabels()
 
+        ' グループ線を描画
         Me.drawLines()
     End Sub
 End Class
