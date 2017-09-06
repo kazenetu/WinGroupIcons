@@ -66,11 +66,6 @@ Public Class Form1
 
         ElseIf e.Button = MouseButtons.Right Then
 
-            ' コントロールキーが押されていない場合はリストをクリア
-            If Not (Control.ModifierKeys And Keys.Control) = Keys.Control Then
-                Me.selectIcons.Clear()
-            End If
-
             ' 右クリックしたアイコンが追加されていない場合は追加する
             If Not Me.selectIcons.Contains(target.Tag) Then
                 Me.selectIcons.Add(target.Tag)
