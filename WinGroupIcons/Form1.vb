@@ -18,6 +18,11 @@ Public Class Form1
     Private selectIcons As New List(Of IconInfo)
 
     ''' <summary>
+    ''' ドラッグ中のアイコンの相対位置
+    ''' </summary>
+    Private selectIconPosition As Point
+
+    ''' <summary>
     ''' ラベルのマウスイベントを追加
     ''' </summary>
     ''' <param name="target"></param>
@@ -53,6 +58,7 @@ Public Class Form1
                 If Not Me.selectIcons.Contains(target.Tag) Then
                     Me.selectIcons.Add(target.Tag)
                 End If
+
             Else
 
                 ' 単一選択の場合、クリアしてから今回のアイコンを追加
@@ -63,6 +69,9 @@ Public Class Form1
 
             ' ラベル設定
             Me.setLabels()
+
+            ' 選択位置を保存
+            Me.selectIconPosition = e.Location
 
         ElseIf e.Button = MouseButtons.Right Then
 
@@ -99,7 +108,7 @@ Public Class Form1
 
         ' アイコンの移動と背景色の変更
         Dim target As Label = DirectCast(sender, Label)
-        target.Left += e.X
+        target.Left += e.X - Me.selectIconPosition.X
         target.BackColor = Color.FromArgb(64, Color.Red)
     End Sub
 
@@ -158,7 +167,7 @@ Public Class Form1
 
         newLabel.Left = iconX + 30
         newLabel.Top = 100
-        newLabel.Margin = New Padding(30, 30, 0, 0)
+        'newLabel.Margin = New Padding(30, 30, 0, 0)
         newLabel.Width = 60
         newLabel.Height = 60
         newLabel.BackColor = Color.SkyBlue
