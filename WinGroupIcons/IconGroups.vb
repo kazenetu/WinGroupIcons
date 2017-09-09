@@ -86,6 +86,9 @@ Public Class IconGroups
 
         ' 空のグループは削除
         Me.removeEmptyGroups()
+
+        ' アイコンの並び直し
+        Me.refresh()
     End Sub
 
     ''' <summary>
